@@ -1,57 +1,54 @@
 "use strict";
 
 import {
-  Default,
   Table,
+  BelongsTo,
   Column,
   PrimaryKey,
+  ForeignKey,
   Model,
+  HasMany,
   DataType,
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
+import { Country } from "./Country";
+import { User } from "./User";
+import { Itinerary } from "./Itinerary";
+import { Place } from "./Places";
 
 interface TravelAttributes {
-  id: string;
+  id: number;
   name: string;
   owner_id: string;
   user_id: string;
-  start_date: Date;
-  end_date: Date;
+  start: Date;
+  end: Date;
   pax: number;
-  destination: number;
+  country_code: string;
 }
 
 @Table({
   modelName: "Travel",
   tableName: "Travels",
+  underscored: true,
 })
 export class Travel extends Model<TravelAttributes> {
   @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUIDV4)
-  id!: string;
+  @Column
+  id!: number;
 
   @Column
   name!: string;
 
-  @Column(DataType.UUIDV4)
-  owner_id!: string;
-
-  @Column(DataType.UUIDV4)
-  user_id?: string;
+  @Column
+  start!: Date;
 
   @Column
-  start_date!: Date;
-
-  @Column
-  end_date!: Date;
+  end!: Date;
 
   @Column
   pax!: number;
-
-  @Column
-  destination!: number;
 
   @CreatedAt
   @Column
@@ -60,4 +57,24 @@ export class Travel extends Model<TravelAttributes> {
   @UpdatedAt
   @Column
   updated_at!: Date;
+
+  @ForeignKey(() => Country)
+  @Column
+  country_code!: string;
+
+  @BelongsTo(() => Country)
+  country!: Country;
+
+  @ForeignKey(() => User)
+  @Column
+  owner_id!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
+
+  @HasMany(() => Itinerary)
+  itinerary!: Itinerary[];
+
+  @HasMany(() => Place)
+  place!: Place[];
 }

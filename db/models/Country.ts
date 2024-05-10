@@ -1,41 +1,34 @@
 "use strict";
 
 import {
-  Default,
+  HasMany,
   Table,
   Column,
   PrimaryKey,
-  HasMany,
   Model,
-  DataType,
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
 
-interface UserAttributes {
-  id: string;
+interface CountryAttributes {
   name: string;
-  email: string;
+  code: string;
 }
 
 @Table({
-  modelName: "User",
-  tableName: "Users",
+  modelName: "Country",
+  tableName: "Countries",
   underscored: true,
 })
-export class User extends Model<UserAttributes> {
+export class Country extends Model<CountryAttributes> {
   @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUIDV4)
-  id!: string;
+  @Column
+  code!: string;
 
   @Column
-  name?: string;
-
-  @Column
-  email!: string;
+  name!: string;
 
   @CreatedAt
   @Column
