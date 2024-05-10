@@ -8,8 +8,7 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,
@@ -18,15 +17,16 @@ module.exports = {
       owner_id: {
         allowNull: false,
         type: Sequelize.UUID,
+        references: {
+          model: "Users",
+          key: "id",
+        },
       },
-      user_id: {
-        type: Sequelize.UUID,
-      },
-      start_date: {
+      start: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      end_date: {
+      end: {
         allowNull: false,
         type: Sequelize.DATE,
       },
@@ -34,9 +34,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      destination: {
+      code: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
+        references: {
+          model: "Countries",
+          key: "code",
+        },
       },
       created_at: {
         allowNull: false,
