@@ -15,13 +15,12 @@ import {
 import { Country } from "./Country";
 import { User } from "./User";
 import { Itinerary } from "./Itinerary";
-import { Place } from "./Places";
+import { Place } from "./Place";
 
-interface TravelAttributes {
+export interface TravelAttributes {
   id: number;
   name: string;
   owner_id: string;
-  user_id: string;
   start: Date;
   end: Date;
   pax: number;

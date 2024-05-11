@@ -13,7 +13,7 @@ import {
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
-import { Place } from "./Places";
+import { Place } from "./Place";
 
 interface ItineraryAttributes {
   id: number;

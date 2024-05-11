@@ -6,7 +6,7 @@ const travelsController = new TravelsController();
 export class TravelsRouter {
   routes() {
     const router = Router();
-    router.get("/", travelsController.getAllTravel);
+    router.get("/", travelsController.getAllTravels);
 
     return router;
   }
