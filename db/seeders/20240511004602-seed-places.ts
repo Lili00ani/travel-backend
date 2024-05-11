@@ -6,7 +6,6 @@ module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
     await queryInterface.bulkInsert("Places", [
       {
-        id: 1,
         travel_id: 1,
         google_places: "ChIJA5LATO4Z2jER111V-v6abAI",
         notes: "Cool, don't need reservation",

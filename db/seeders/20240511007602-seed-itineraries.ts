@@ -6,7 +6,6 @@ module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
     await queryInterface.bulkInsert("Itineraries", [
       {
-        id: 1,
         day: 1,
         color: "FF5733",
         place_id: 1,

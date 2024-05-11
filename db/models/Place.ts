@@ -1,6 +1,7 @@
 "use strict";
 
 import {
+  AutoIncrement,
   Table,
   Column,
   PrimaryKey,
@@ -16,7 +17,6 @@ import { Travel } from "./Travel";
 import { Itinerary } from "./Itinerary";
 
 interface PlaceAttributes {
-  id: number;
   travel_id: number;
   google_places: string;
   notes: string;
@@ -31,6 +31,7 @@ interface PlaceAttributes {
 })
 export class Place extends Model<PlaceAttributes> {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id!: number;
 
