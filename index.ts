@@ -6,6 +6,7 @@ import { connection } from "./db/models";
 import { TravelsRouter } from "./routers/travelsRouter";
 import { UsersRouter } from "./routers/usersRouter";
 import { CountriesRouter } from "./routers/countriesRouter";
+import { auth } from "express-oauth2-jwt-bearer";
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -16,8 +17,14 @@ const travelsRouter = new TravelsRouter().routes();
 const usersRouter = new UsersRouter().routes();
 const countriesRouter = new CountriesRouter().routes();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
+const jwtCheck = auth({
+  audience: "https://travel/api",
+  issuerBaseURL: "https://dev-f7k2kflazqjijb46.us.auth0.com/",
+  tokenSigningAlg: "RS256",
+});
 
 (async () => {
   try {
@@ -28,13 +35,10 @@ app.use(cors());
   }
 })();
 
-app.use("/travel", travelsRouter);
-app.use("/u", usersRouter);
+app.use("/travel", jwtCheck, travelsRouter);
+// app.post("/travel", checkJwt, travelsRouter);
+app.use("/users", jwtCheck, usersRouter);
 app.use("/countries", countriesRouter);
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
