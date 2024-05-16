@@ -47,4 +47,23 @@ export class TravelsController {
       return res.status(400).json({ error: true, msg: err });
     }
   }
+
+  async getTravelDuration(req: Request, res: Response) {
+    const id = req.query.id as string;
+    try {
+      const travel = await Travel.findByPk(id);
+      if (!travel) {
+        return res.status(404).json({ error: true, msg: "Travel not found" });
+      }
+      const start = new Date(travel.start);
+      const end = new Date(travel.end);
+      const durationInDays = Math.ceil(
+        (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      return res.json(durationInDays);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
 }
