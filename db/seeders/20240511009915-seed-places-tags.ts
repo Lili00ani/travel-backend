@@ -6,7 +6,6 @@ module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
     await queryInterface.bulkInsert("Places_Tags", [
       {
-        id: 1,
         place_id: 1,
         tag_id: 1,
         created_at: new Date(),

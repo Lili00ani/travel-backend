@@ -8,6 +8,7 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
         type: Sequelize.INTEGER,
       },
       name: {
@@ -34,7 +35,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      code: {
+      country_code: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {

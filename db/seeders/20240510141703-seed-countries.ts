@@ -11,6 +11,12 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        name: "Malaysia",
+        code: "MY",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
     ]);
   },
 

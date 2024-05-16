@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import { User } from "../db/models/";
 
 export class UsersController {
-  async getAllUser(req: Request, res: Response) {
-    // const id = req.params.id;
+  async insertUser(req: Request, res: Response) {
+    const { email } = req.body;
     try {
-      // const output = await Travel.findAll({ where: { owner_id: id } });
-      const output = await User.findAll();
+      const output = await User.findOrCreate({
+        where: { email: email },
+      });
       return res.json(output);
     } catch (err) {
       console.log(err);

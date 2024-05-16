@@ -6,7 +6,7 @@ const usersController = new UsersController();
 export class UsersRouter {
   routes() {
     const router = Router();
-    router.get("/", usersController.getAllUser);
+    router.post("/", usersController.insertUser);
 
     return router;
   }

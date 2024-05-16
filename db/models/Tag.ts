@@ -1,6 +1,7 @@
 "use strict";
 
 import {
+  AutoIncrement,
   Table,
   Column,
   PrimaryKey,
@@ -10,7 +11,6 @@ import {
 } from "sequelize-typescript";
 
 interface TagAttributes {
-  id: number;
   name: string;
   emoji: string;
   travel_id: number;
@@ -23,6 +23,7 @@ interface TagAttributes {
 })
 export class Tag extends Model<TagAttributes> {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id!: number;
 

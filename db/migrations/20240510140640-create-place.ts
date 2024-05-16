@@ -23,6 +23,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      lat: {
+        type: Sequelize.FLOAT,
+      },
+      lng: {
+        type: Sequelize.FLOAT,
+      },
       notes: {
         type: Sequelize.STRING,
       },

@@ -11,17 +11,16 @@ import {
   DataType,
   CreatedAt,
   UpdatedAt,
+  AutoIncrement,
 } from "sequelize-typescript";
 import { Country } from "./Country";
 import { User } from "./User";
 import { Itinerary } from "./Itinerary";
-import { Place } from "./Places";
+import { Place } from "./Place";
 
-interface TravelAttributes {
-  id: number;
+export interface TravelAttributes {
   name: string;
   owner_id: string;
-  user_id: string;
   start: Date;
   end: Date;
   pax: number;
@@ -35,6 +34,7 @@ interface TravelAttributes {
 })
 export class Travel extends Model<TravelAttributes> {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id!: number;
 

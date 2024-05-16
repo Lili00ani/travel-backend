@@ -1,6 +1,7 @@
 "use strict";
 
 import {
+  AutoIncrement,
   Table,
   Column,
   PrimaryKey,
@@ -13,10 +14,9 @@ import {
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
-import { Place } from "./Places";
+import { Place } from "./Place";
 
 interface ItineraryAttributes {
-  id: number;
   day: number;
   color: string;
   place_id: number;
@@ -33,6 +33,7 @@ interface ItineraryAttributes {
 })
 export class Itinerary extends Model<ItineraryAttributes> {
   @PrimaryKey
+  @AutoIncrement
   @Column
   id!: number;
 
