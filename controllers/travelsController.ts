@@ -30,8 +30,8 @@ export class TravelsController {
   }
 
   async createTravel(req: Request, res: Response) {
-    const { travel } = req.body;
-    const { owner_id, name, start, end, pax, country_code } = travel;
+    console.log(req.body);
+    const { owner_id, name, start, end, pax, country_code } = req.body;
     try {
       const output = await Travel.create({
         owner_id: owner_id,

@@ -11,6 +11,8 @@ module.exports = {
         notes: "Cool, don't need reservation",
         name: "Marina Bay Sands",
         address: "Marina Rd",
+        lat: 1.3133061244821134,
+        lng: 103.93066699939865,
         created_at: new Date(),
         updated_at: new Date(),
       },

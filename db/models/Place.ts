@@ -16,9 +16,11 @@ import {
 import { Travel } from "./Travel";
 import { Itinerary } from "./Itinerary";
 
-interface PlaceAttributes {
+export interface PlaceAttributes {
   travel_id: number;
   google_places: string;
+  lat: number;
+  lng: number;
   notes: string;
   name: string;
   address: string;
@@ -37,6 +39,12 @@ export class Place extends Model<PlaceAttributes> {
 
   @Column
   google_places!: string;
+
+  @Column
+  lat?: string;
+
+  @Column
+  lng?: string;
 
   @Column
   notes?: string;
