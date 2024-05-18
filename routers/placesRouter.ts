@@ -8,6 +8,7 @@ export class PlacesRouter {
     const router = Router();
     router.get("/all", placesController.getAllPlaces);
     router.post("/", placesController.createPlace);
+    router.delete("/:id", placesController.deletePlace);
 
     return router;
   }
