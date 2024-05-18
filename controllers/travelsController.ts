@@ -8,7 +8,10 @@ export class TravelsController {
     const id = req.query.id as string;
     console.log("req", req.query);
     try {
-      const output = await Travel.findAll({ where: { owner_id: id } });
+      const output = await Travel.findAll({
+        where: { owner_id: id },
+        order: [["start", "ASC"]],
+      });
       // const output = await Travel.findAll();
       console.log("output", output);
       return res.json(output);
