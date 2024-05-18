@@ -9,6 +9,8 @@ export class TravelsRouter {
     router.get("/all", travelsController.getAllTravels);
     router.get("/", travelsController.findOne);
     router.post("/", travelsController.createTravel);
+    router.put("/:id", travelsController.updateTravel);
+    router.delete("/:id", travelsController.deleteTravel);
     router.get("/duration", travelsController.getTravelDuration);
 
     return router;

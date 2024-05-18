@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Travel } from "../db/models/";
 import { TravelAttributes } from "../db/models/Travel";
+import { IsNull } from "sequelize-typescript";
 
 export class TravelsController {
   async getAllTravels(req: Request, res: Response) {
@@ -42,6 +43,37 @@ export class TravelsController {
         country_code: country_code,
       } as TravelAttributes);
       return res.json(output);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async updateTravel(req: Request, res: Response) {
+    const { id } = req.params;
+    const { owner_id, name, start, end, pax, country_code } = req.body;
+    try {
+      const travel = await Travel.findByPk(id);
+      travel!.owner_id = owner_id;
+      travel!.name = name;
+      travel!.start = start;
+      travel!.end = end;
+      travel!.pax = pax;
+      travel!.country_code = country_code;
+      await travel!.save();
+      return res.json(travel);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async deleteTravel(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const travel = await Travel.findByPk(id);
+      await travel?.destroy();
+      return res.status(200).json({ success: true, msg: "Travel deleted" });
     } catch (err) {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
