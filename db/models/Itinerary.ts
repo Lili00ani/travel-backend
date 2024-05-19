@@ -16,7 +16,7 @@ import {
 import { Travel } from "./Travel";
 import { Place } from "./Place";
 
-interface ItineraryAttributes {
+export interface ItineraryAttributes {
   day: number;
   color: string;
   place_id: number;

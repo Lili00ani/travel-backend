@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { Place } from "../db/models/";
+import { Place, Itinerary } from "../db/models/";
 import { PlaceAttributes } from "../db/models/Place";
+import { Op } from "sequelize";
 
 export class PlacesController {
   async getAllPlaces(req: Request, res: Response) {
@@ -58,6 +59,34 @@ export class PlacesController {
       console.log(place);
       await place?.destroy();
       return res.status(200).json({ success: true, msg: "Place deleted" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async getUnassignedPlaces(req: Request, res: Response) {
+    const travelId = req.query.id as string;
+    try {
+      const unassignedPlaces = await Place.findAll({
+        include: [
+          {
+            model: Itinerary,
+            required: false,
+            attributes: [],
+            where: { travel_id: travelId },
+            as: "itinerary",
+          },
+        ],
+        where: {
+          travel_id: travelId,
+          "$itinerary.id$": {
+            [Op.is]: null,
+          },
+        },
+      });
+
+      return res.json(unassignedPlaces);
     } catch (err) {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
