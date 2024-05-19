@@ -15,7 +15,6 @@ import {
 } from "sequelize-typescript";
 import { Country } from "./Country";
 import { User } from "./User";
-import { Itinerary } from "./Itinerary";
 import { Place } from "./Place";
 
 export interface TravelAttributes {
@@ -71,9 +70,6 @@ export class Travel extends Model<TravelAttributes> {
 
   @BelongsTo(() => User)
   user!: User;
-
-  @HasMany(() => Itinerary)
-  itinerary!: Itinerary[];
 
   @HasMany(() => Place)
   place!: Place[];

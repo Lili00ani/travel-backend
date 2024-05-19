@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Place, Itinerary } from "../db/models/";
+import { Place } from "../db/models/";
 import { PlaceAttributes } from "../db/models/Place";
 import { Op } from "sequelize";
 
@@ -9,7 +9,6 @@ export class PlacesController {
     console.log("req", req.query);
     try {
       const output = await Place.findAll({ where: { travel_id: id } });
-      // const output = await Travel.findAll();
       console.log("output", output);
       return res.json(output);
     } catch (err) {
@@ -32,6 +31,8 @@ export class PlacesController {
         notes: notes,
         name: name,
         address: address,
+        day: 0,
+        idx: 0,
       } as PlaceAttributes);
       return res.json(output);
     } catch (err) {
@@ -99,20 +100,9 @@ export class PlacesController {
     const travelId = req.query.id as string;
     try {
       const unassignedPlaces = await Place.findAll({
-        include: [
-          {
-            model: Itinerary,
-            required: false,
-            attributes: [],
-            where: { travel_id: travelId },
-            as: "itinerary",
-          },
-        ],
         where: {
           travel_id: travelId,
-          "$itinerary.id$": {
-            [Op.is]: null,
-          },
+          day: 0,
         },
       });
       return res.json(unassignedPlaces);
