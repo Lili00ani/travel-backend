@@ -65,6 +65,36 @@ export class PlacesController {
     }
   }
 
+  async deleteAllPlace(req: Request, res: Response) {
+    const { id } = req.params;
+    console.log(id);
+    console.log(req.params);
+    try {
+      const places = await Place.findAll({
+        where: {
+          travel_id: id,
+        },
+      });
+
+      if (places.length === 0) {
+        return res.status(404).json({
+          success: false,
+          msg: "No places found for the given travel_id",
+        });
+      }
+
+      await Place.destroy({
+        where: {
+          travel_id: id,
+        },
+      });
+      return res.status(200).json({ success: true, msg: "All places deleted" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
   async getUnassignedPlaces(req: Request, res: Response) {
     const travelId = req.query.id as string;
     try {
@@ -85,7 +115,6 @@ export class PlacesController {
           },
         },
       });
-
       return res.json(unassignedPlaces);
     } catch (err) {
       console.log(err);

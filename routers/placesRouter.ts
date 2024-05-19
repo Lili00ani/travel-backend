@@ -10,8 +10,8 @@ export class PlacesRouter {
     router.get("/all", placesController.getAllPlaces);
     router.get("/:id", placesController.findOne);
     router.post("/", placesController.createPlace);
+    router.delete("/all/:id", placesController.deleteAllPlace);
     router.delete("/:id", placesController.deletePlace);
-
     return router;
   }
 }
