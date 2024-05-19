@@ -77,13 +77,6 @@ export class PlacesController {
         },
       });
 
-      if (places.length === 0) {
-        return res.status(404).json({
-          success: false,
-          msg: "No places found for the given travel_id",
-        });
-      }
-
       await Place.destroy({
         where: {
           travel_id: id,
