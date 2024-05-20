@@ -38,10 +38,9 @@ const jwtCheck = auth({
 })();
 
 app.use("/travel", jwtCheck, travelsRouter);
-// app.post("/travel", checkJwt, travelsRouter);
 app.use("/users", jwtCheck, usersRouter);
 app.use("/countries", countriesRouter);
-app.use("/place", placesRouter);
+app.use("/place", jwtCheck, placesRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);

@@ -38,6 +38,18 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
+      day: {
+        type: Sequelize.INTEGER,
+      },
+      start: {
+        type: Sequelize.DATE,
+      },
+      end: {
+        type: Sequelize.DATE,
+      },
+      idx: {
+        type: Sequelize.INTEGER,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

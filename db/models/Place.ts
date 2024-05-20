@@ -14,16 +14,19 @@ import {
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
-import { Itinerary } from "./Itinerary";
 
 export interface PlaceAttributes {
   travel_id: number;
   google_places: string;
   lat: number;
   lng: number;
-  notes: string;
+  notes?: string;
   name: string;
   address: string;
+  day: number;
+  idx: number;
+  start?: Date;
+  end?: Date;
 }
 
 @Table({
@@ -55,6 +58,18 @@ export class Place extends Model<PlaceAttributes> {
   @Column
   address?: string;
 
+  @Column
+  day!: number;
+
+  @Column
+  idx!: number;
+
+  @Column
+  start?: Date;
+
+  @Column
+  end?: Date;
+
   @CreatedAt
   @Column
   created_at!: Date;
@@ -69,7 +84,4 @@ export class Place extends Model<PlaceAttributes> {
 
   @BelongsTo(() => Travel)
   travel!: Travel;
-
-  @HasMany(() => Itinerary)
-  itinerary!: Itinerary[];
 }

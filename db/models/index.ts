@@ -4,7 +4,6 @@ import { Dialect } from "sequelize";
 import { Travel } from "./Travel";
 import { User } from "./User";
 import { Country } from "./Country";
-import { Itinerary } from "./Itinerary";
 import { Place } from "./Place";
 import { Tag } from "./Tag";
 
@@ -17,7 +16,7 @@ const connection = new Sequelize({
   database: process.env.DB_NAME,
   host: process.env.HOST,
   dialect: process.env.DB_DIALECT as Dialect,
-  models: [Country, Itinerary, Place, Tag, Travel, User],
+  models: [Country, Place, Tag, Travel, User],
 });
 
-export { connection, Country, Itinerary, Place, Tag, Travel, User };
+export { connection, Country, Place, Tag, Travel, User };
