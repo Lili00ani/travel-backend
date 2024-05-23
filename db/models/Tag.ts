@@ -10,9 +10,8 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 
-interface TagAttributes {
+export interface TagAttributes {
   name: string;
-  emoji: string;
   travel_id: number;
 }
 
@@ -29,9 +28,6 @@ export class Tag extends Model<TagAttributes> {
 
   @Column
   name!: string;
-
-  @Column
-  emoji?: string;
 
   @Column
   travel_id!: number;
