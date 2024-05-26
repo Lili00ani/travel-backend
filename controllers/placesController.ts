@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Place } from "../db/models/";
+import { Place, Tag } from "../db/models/";
 import { PlaceAttributes } from "../db/models/Place";
 import { Op } from "sequelize";
 

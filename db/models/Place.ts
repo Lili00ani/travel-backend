@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
+  BelongsToMany,
   Model,
   CreatedAt,
   UpdatedAt,
@@ -14,6 +15,8 @@ import {
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
+import { PlaceTag } from "./PlaceTag";
+import { Tag } from "./Tag";
 
 export interface PlaceAttributes {
   travel_id: number;
@@ -84,4 +87,7 @@ export class Place extends Model<PlaceAttributes> {
 
   @BelongsTo(() => Travel)
   travel!: Travel;
+
+  @BelongsToMany(() => Tag, () => PlaceTag)
+  tags!: Tag[];
 }

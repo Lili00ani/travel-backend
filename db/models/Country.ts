@@ -12,7 +12,7 @@ import {
 
 import { Travel } from "./Travel";
 
-interface CountryAttributes {
+export interface CountryAttributes {
   name: string;
   code: string;
 }

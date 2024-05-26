@@ -8,7 +8,7 @@ export class TagsRouter {
     const router = Router();
     router.get("/all", tagsController.getAllTags);
     router.post("/", tagsController.createTag);
-    router.delete("/all/:id", tagsController.deleteAllTags);
+    // router.delete("/all/:id", tagsController.deleteAllTags);
     router.delete("/:id", tagsController.deleteTag);
     return router;
   }

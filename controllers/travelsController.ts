@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { Travel } from "../db/models/";
+import { Travel, Country } from "../db/models/";
 import { TravelAttributes } from "../db/models/Travel";
+import { CountryAttributes } from "../db/models/Country";
 import { IsNull } from "sequelize-typescript";
 
 export class TravelsController {
