@@ -2,14 +2,46 @@ import { Request, Response } from "express";
 import { Travel } from "../db/models/";
 import { TravelAttributes } from "../db/models/Travel";
 import { IsNull } from "sequelize-typescript";
+import { Op } from "sequelize";
 
 export class TravelsController {
-  async getAllTravels(req: Request, res: Response) {
+  async getAllTravelsCurrent(req: Request, res: Response) {
     const id = req.query.id as string;
+    const today = new Date();
+
     console.log("req", req.query);
     try {
       const output = await Travel.findAll({
-        where: { owner_id: id },
+        where: {
+          owner_id: id,
+          end: {
+            [Op.gte]: today,
+          },
+        },
+        order: [["start", "ASC"]],
+      });
+      // const output = await Travel.findAll();
+      console.log("output", output);
+      return res.json(output);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async getAllTravelsPast(req: Request, res: Response) {
+    const id = req.query.id as string;
+    const today = new Date();
+
+    console.log("req", req.query);
+    try {
+      const output = await Travel.findAll({
+        where: {
+          owner_id: id,
+          end: {
+            [Op.lt]: today,
+          },
+        },
         order: [["start", "ASC"]],
       });
       // const output = await Travel.findAll();
