@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Tag } from "../db/models/";
+import { Tag, PlaceTag } from "../db/models/";
 import { TagAttributes } from "../db/models/Tag";
 
 export class TagsController {
@@ -18,12 +18,27 @@ export class TagsController {
 
   async createTag(req: Request, res: Response) {
     const { travel_id, name } = req.body;
+    const { placeId } = req.params;
     try {
-      const output = await Tag.create({
-        travel_id: travel_id,
-        name: name,
-      } as TagAttributes);
-      return res.json(output);
+      let tag = await Tag.findOne({ where: { name, travel_id } });
+      if (!tag) {
+        tag = await Tag.create({
+          travel_id: travel_id,
+          name: name,
+        } as TagAttributes);
+      }
+
+      console.log(placeId);
+      console.log(tag.id);
+
+      if (placeId && tag.id) {
+        await PlaceTag.create({
+          place_id: placeId,
+          tag_id: tag.id,
+        });
+      }
+
+      return res.json(tag);
     } catch (err) {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
@@ -31,59 +46,78 @@ export class TagsController {
   }
 
   async deleteTag(req: Request, res: Response) {
-    const { id } = req.params;
+    const { placeId, tagId } = req.params;
     try {
-      const tag = await Tag.findByPk(id);
-      console.log(tag);
-      await Tag?.destroy();
-      return res.status(200).json({ success: true, msg: "Tag deleted" });
+      const placeTag = await PlaceTag.findOne({
+        where: { place_id: placeId, tag_id: tagId },
+      });
+      if (!placeTag) {
+        return res
+          .status(404)
+          .json({ error: true, message: "Tag association not found" });
+      }
+      await placeTag.destroy();
+      return res
+        .status(200)
+        .json({ success: true, msg: "Tag association deleted" });
     } catch (err) {
       console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   }
 
-  // async deleteAllPlace(req: Request, res: Response) {
-  //   const { id } = req.params;
-  //   console.log(id);
-  //   console.log(req.params);
-  //   try {
-  //     const places = await Place.findAll({
-  //       where: {
-  //         travel_id: id,
-  //       },
-  //     });
+  async updateTag(req: Request, res: Response) {
+    const { tagId } = req.params;
+    const { name } = req.body;
+    try {
+      const tag = await Tag.findByPk(tagId);
 
-  //     await Place.destroy({
-  //       where: {
-  //         travel_id: id,
-  //       },
-  //     });
-  //     return res.status(200).json({ success: true, msg: "All places deleted" });
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: true, msg: err });
-  //   }
-  // }
+      if (!tag) {
+        return res.status(404).json({ error: true, message: "Tag not found" });
+      }
 
-  // async updatePlace(req: Request, res: Response) {
-  //   const { id } = req.params;
-  //   const { notes, day, idx, start, end } = req.body;
-  //   try {
-  //     const place = await Place.findByPk(id);
-  //     if (!place) {
-  //       return res.status(404).json({ error: true, msg: "Place not found" });
-  //     }
-  //     if (start !== undefined) place.start = start;
-  //     if (end !== undefined) place.end = end;
-  //     if (notes !== undefined) place.notes = notes;
-  //     if (day !== undefined) place.day = day;
-  //     if (idx !== undefined) place.idx = idx;
-  //     await place.save();
-  //     return res.json(place);
-  //   } catch (err) {
-  //     console.log(err);
-  //     return res.status(400).json({ error: true, msg: err });
-  //   }
-  // }
+      tag.name = name;
+      await tag.save();
+
+      return res.status(200).json({ success: true, tag });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async deleteAllTags(req: Request, res: Response) {
+    const { id } = req.params;
+    console.log(id);
+    console.log(req.params);
+    try {
+      const tags = await Tag.findAll({
+        where: {
+          travel_id: id,
+        },
+      });
+
+      const tagIds = tags.map((tag) => tag.id);
+
+      await PlaceTag.destroy({
+        where: {
+          tag_id: tagIds,
+        },
+      });
+
+      await Tag.destroy({
+        where: {
+          travel_id: id,
+        },
+      });
+
+      return res.status(200).json({
+        success: true,
+        msg: "All tags and related PlaceTag rows deleted",
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
 }

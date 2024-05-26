@@ -6,6 +6,7 @@ import { User } from "./User";
 import { Country } from "./Country";
 import { Place } from "./Place";
 import { Tag } from "./Tag";
+import { PlaceTag } from "./PlaceTag";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -16,7 +17,7 @@ const connection = new Sequelize({
   database: process.env.DB_NAME,
   host: process.env.HOST,
   dialect: process.env.DB_DIALECT as Dialect,
-  models: [Country, Place, Tag, Travel, User],
+  models: [Country, Place, Tag, Travel, User, PlaceTag],
 });
 
-export { connection, Country, Place, Tag, Travel, User };
+export { connection, Country, Place, Tag, Travel, User, PlaceTag };

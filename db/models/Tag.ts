@@ -2,6 +2,7 @@
 
 import {
   AutoIncrement,
+  BelongsToMany,
   Table,
   Column,
   PrimaryKey,
@@ -9,6 +10,9 @@ import {
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
+
+import { PlaceTag } from "./PlaceTag";
+import { Place } from "./Place";
 
 export interface TagAttributes {
   name: string;
@@ -39,4 +43,7 @@ export class Tag extends Model<TagAttributes> {
   @UpdatedAt
   @Column
   updated_at!: Date;
+
+  @BelongsToMany(() => Place, () => PlaceTag)
+  places?: Place[];
 }

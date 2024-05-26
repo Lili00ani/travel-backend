@@ -7,6 +7,7 @@ import { TravelsRouter } from "./routers/travelsRouter";
 import { UsersRouter } from "./routers/usersRouter";
 import { CountriesRouter } from "./routers/countriesRouter";
 import { PlacesRouter } from "./routers/placesRouter";
+import { TagsRouter } from "./routers/tagsRouter";
 import { auth } from "express-oauth2-jwt-bearer";
 
 dotenv.config();
@@ -18,6 +19,7 @@ const travelsRouter = new TravelsRouter().routes();
 const usersRouter = new UsersRouter().routes();
 const countriesRouter = new CountriesRouter().routes();
 const placesRouter = new PlacesRouter().routes();
+const tagsRouter = new TagsRouter().routes();
 
 app.use(cors());
 app.use(express.json());
@@ -41,6 +43,7 @@ app.use("/travel", jwtCheck, travelsRouter);
 app.use("/users", jwtCheck, usersRouter);
 app.use("/countries", countriesRouter);
 app.use("/place", jwtCheck, placesRouter);
+app.use("/tags", jwtCheck, tagsRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
