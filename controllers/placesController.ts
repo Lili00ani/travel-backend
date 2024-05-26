@@ -16,6 +16,7 @@ export class PlacesController {
             through: { attributes: [] },
           },
         ],
+        order: [["created_at", "ASC"]],
       });
       console.log("output", output);
       return res.json(output);
