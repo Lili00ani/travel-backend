@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Place } from "../db/models/";
+import { Place, Tag } from "../db/models/";
 import { PlaceAttributes } from "../db/models/Place";
 import { Op } from "sequelize";
 
@@ -8,7 +8,16 @@ export class PlacesController {
     const id = req.query.id as string;
     console.log("req", req.query);
     try {
-      const output = await Place.findAll({ where: { travel_id: id } });
+      const output = await Place.findAll({
+        where: { travel_id: id },
+        include: [
+          {
+            model: Tag,
+            through: { attributes: [] },
+          },
+        ],
+        order: [["created_at", "ASC"]],
+      });
       console.log("output", output);
       return res.json(output);
     } catch (err) {
@@ -58,6 +67,7 @@ export class PlacesController {
     try {
       const place = await Place.findByPk(id);
       console.log(place);
+      await place?.$set("tags", []);
       await place?.destroy();
       return res.status(200).json({ success: true, msg: "Place deleted" });
     } catch (err) {

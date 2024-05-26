@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
+  BelongsToMany,
   Model,
   CreatedAt,
   UpdatedAt,
@@ -14,6 +15,8 @@ import {
 } from "sequelize-typescript";
 
 import { Travel } from "./Travel";
+import { Tag } from "./Tag";
+import { PlaceTag } from "./PlaceTag";
 
 export interface PlaceAttributes {
   travel_id: number;
@@ -44,10 +47,10 @@ export class Place extends Model<PlaceAttributes> {
   google_places!: string;
 
   @Column
-  lat?: string;
+  lat?: number;
 
   @Column
-  lng?: string;
+  lng?: number;
 
   @Column
   notes?: string;
@@ -84,4 +87,7 @@ export class Place extends Model<PlaceAttributes> {
 
   @BelongsTo(() => Travel)
   travel!: Travel;
+
+  @BelongsToMany(() => Tag, () => PlaceTag)
+  tags?: Tag[];
 }

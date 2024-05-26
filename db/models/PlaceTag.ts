@@ -2,39 +2,35 @@
 
 import {
   AutoIncrement,
-  BelongsToMany,
   Table,
   Column,
   PrimaryKey,
+  ForeignKey,
   Model,
   CreatedAt,
   UpdatedAt,
 } from "sequelize-typescript";
-
-import { PlaceTag } from "./PlaceTag";
 import { Place } from "./Place";
-
-export interface TagAttributes {
-  name: string;
-  travel_id: number;
-}
+import { Tag } from "./Tag";
 
 @Table({
-  modelName: "Tag",
-  tableName: "Tags",
+  modelName: "PlaceTag",
+  tableName: "Places_Tags",
   underscored: true,
 })
-export class Tag extends Model<TagAttributes> {
+export class PlaceTag extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
   id!: number;
 
+  @ForeignKey(() => Place)
   @Column
-  name!: string;
+  place_id!: number;
 
+  @ForeignKey(() => Tag)
   @Column
-  travel_id!: number;
+  tag_id!: number;
 
   @CreatedAt
   @Column
@@ -43,7 +39,4 @@ export class Tag extends Model<TagAttributes> {
   @UpdatedAt
   @Column
   updated_at!: Date;
-
-  @BelongsToMany(() => Place, () => PlaceTag)
-  places?: Place[];
 }

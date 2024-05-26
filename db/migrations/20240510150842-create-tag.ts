@@ -15,9 +15,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      emoji: {
-        type: Sequelize.STRING,
-      },
       travel_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
